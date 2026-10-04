@@ -1,162 +1,198 @@
  //   repositorio: https://github.com/leo441-pro/ParadigmasDeProgramacion
+ import java.util.Arrays;
+ import java.util.Comparator;
+ import java.util.List;
+ import java.util.OptionalDouble;
+ import java.util.stream.Collectors;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+ public class Main {
+     public static void main(String[] args) {
 
-public class Main {
+         // Uso de Listas con tipos de datos NO primitivos (Integer, Double, String)
+         List<Integer> numeros = Arrays.asList(16, -3, 21, 82, 67, 5, 4, 98, 31, 10);
+         List<Double> temperaturasCelsius = Arrays.asList(6.7, 23.0, 30.5, 67.0);
+         List<String> nombres = Arrays.asList("Leonardo", "Javier", "Gabriel", "Emilio", "Oscar", "Anais");
 
-    // Método para desplegar las opciones y leer la elección
-    public static int mostrarMenu() {
-        Scanner lector = new Scanner(System.in);
-        System.out.println("\n========== MENÚ DE OPCIONES ==========");
-        System.out.println("1.- Leer dato");
-        System.out.println("2.- Muestre números pares");
-        System.out.println("3.- Muestre los cuadrados de los valores");
-        System.out.println("4.- Suma de los elementos de la lista");
-        System.out.println("5.- Buscar un elemento de la lista");
-        System.out.println("6.- Encontrar valor máximo");
-        System.out.println("7.- Salir");
-        System.out.print("Selecciona una opción (1-7): ");
-        return lector.nextInt();
-    }
+         System.out.println("Lista original de números: " + numeros);
+         System.out.println("==========================================");
 
-    // Método auxiliar para leer un entero de la consola
-    public static Integer leerEntero() {
-        Scanner lector = new Scanner(System.in);
-        System.out.print("Introduce un número entero: ");
-        return lector.nextInt();
-    }
+         // Nivel 1 — Operaciones básicas
+         System.out.println("\n--- Nivel 1 — Operaciones básicas ---");
 
-    // 1. Agregar dato a la lista
-    public static void agregarDato(ArrayList<Integer> lista, Integer dato) {
-        lista.add(dato);
-        System.out.println("-> Número " + dato + " agregado con éxito.");
-    }
+         // 1. Sumar elementos (Utilizando BinaryOperator a través de reduce)
+         int suma = numeros.stream()
+                 .reduce(0, (a, b) -> a + b);
+         System.out.println("1. Suma de elementos: " + suma);
 
-    // 2. Mostrar únicamente pares
-    public static void mostrarPares(ArrayList<Integer> lista) {
-        if (lista.isEmpty()) {
-            System.out.println("-> La lista está vacía.");
-            return;
-        }
-        System.out.print("-> Números pares encontrados: ");
-        boolean hayPares = false;
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i) % 2 == 0) {
-                System.out.print(lista.get(i) + " ");
-                hayPares = true;
-            }
-        }
-        if (!hayPares) {
-            System.out.print("Ninguno");
-        }
-        System.out.println();
-    }
+         // 2. Obtener el máximo (Utilizando Comparator)
+         int maximo = numeros.stream()
+                 .max(Integer::compareTo)
+                 .orElse(0);
+         System.out.println("2. Valor máximo: " + maximo);
 
-    // 3. Mostrar el cuadrado de cada número
-    public static void mostrarCuadrados(ArrayList<Integer> lista) {
-        if (lista.isEmpty()) {
-            System.out.println("-> La lista está vacía.");
-            return;
-        }
-        System.out.println("-> Cuadrado de los valores almacenados:");
-        for (int i = 0; i < lista.size(); i++) {
-            Integer actual = lista.get(i);
-            int cuadrado = actual * actual;
-            System.out.println("   [" + actual + "]² = " + cuadrado);
-        }
-    }
+         // 3. Obtener el mínimo
+         int minimo = numeros.stream()
+                 .min(Integer::compareTo)
+                 .orElse(0);
+         System.out.println("3. Valor mínimo: " + minimo);
 
-    // 4. Calcular suma de todos los elementos
-    public static int calcularSuma(ArrayList<Integer> lista) {
-        int total = 0;
-        for (int i = 0; i < lista.size(); i++) {
-            total += lista.get(i);
-        }
-        return total;
-    }
+         // 4. Contar elementos
+         long cantidad = numeros.stream().count();
+         System.out.println("4. Cantidad de elementos: " + cantidad);
 
-    // 5. Buscar si existe un elemento y mostrar su posición
-    public static void buscarElemento(ArrayList<Integer> lista, Integer objetivo) {
-        if (lista.isEmpty()) {
-            System.out.println("-> La lista está vacía.");
-            return;
-        }
-        int indice = lista.indexOf(objetivo);
-        if (indice != -1) {
-            System.out.println("-> El elemento " + objetivo + " se localizó en el índice: " + indice);
-        } else {
-            System.out.println("-> El elemento " + objetivo + " no forma parte de la lista.");
-        }
-    }
 
-    // 6. Obtener el valor más alto
-    public static Integer obtenerMaximo(ArrayList<Integer> lista) {
-        if (lista.isEmpty()) {
-            return null;
-        }
-        Integer max = lista.get(0);
-        for (int i = 1; i < lista.size(); i++) {
-            if (lista.get(i) > max) {
-                max = lista.get(i);
-            }
-        }
-        return max;
-    }
+         // Nivel 2 — filter (Utilizando Predicate: Recibe algo, regresa True/False)
+         System.out.println("\n--- Nivel 2 — filter ---");
 
-    public static void main(String[] args) {
-        ArrayList<Integer> numeros = new ArrayList<Integer>();
-        int seleccion;
+         // 5. Números pares
+         List<Integer> pares = numeros.stream()
+                 .filter(n -> n % 2 == 0)
+                 .collect(Collectors.toList());
+         System.out.println("5. Números pares: " + pares);
 
-        do {
-            seleccion = mostrarMenu();
+         // 6. Números mayores que 50
+         List<Integer> mayores50 = numeros.stream()
+                 .filter(n -> n > 50)
+                 .collect(Collectors.toList());
+         System.out.println("6. Mayores que 50: " + mayores50);
 
-            switch (seleccion) {
-                case 1:
-                    Integer nuevoValor = leerEntero();
-                    agregarDato(numeros, nuevoValor);
-                    break;
+         // 7. Contar números positivos
+         long positivos = numeros.stream()
+                 .filter(n -> n > 0)
+                 .count();
+         System.out.println("7. Cantidad de números positivos: " + positivos);
 
-                case 2:
-                    mostrarPares(numeros);
-                    break;
+         // 8. Obtener números dentro de un rango (ej. entre 10 y 50)
+         List<Integer> rango = numeros.stream()
+                 .filter(n -> n >= 10 && n <= 50)
+                 .collect(Collectors.toList());
+         System.out.println("8. Números en rango [10, 50]: " + rango);
 
-                case 3:
-                    mostrarCuadrados(numeros);
-                    break;
 
-                case 4:
-                    if (numeros.isEmpty()) {
-                        System.out.println("-> La lista está vacía, la suma es 0.");
-                    } else {
-                        int sumaTotal = calcularSuma(numeros);
-                        System.out.println("-> Suma de los elementos: " + sumaTotal);
-                    }
-                    break;
+         // Nivel 3 — map (Utilizando Function: Recibe algo, regresa algo)
+         System.out.println("\n--- Nivel 3 — map ---");
 
-                case 5:
-                    System.out.print("Valor que deseas buscar. ");
-                    Integer valorBuscar = leerEntero();
-                    buscarElemento(numeros, valorBuscar);
-                    break;
+         // 9. Elevar al cuadrado
+         List<Integer> cuadrados = numeros.stream()
+                 .map(n -> n * n)
+                 .collect(Collectors.toList());
+         System.out.println("9. Números elevados al cuadrado: " + cuadrados);
 
-                case 6:
-                    Integer valorMaximo = obtenerMaximo(numeros);
-                    if (valorMaximo == null) {
-                        System.out.println("-> La lista no contiene elementos para evaluar un máximo.");
-                    } else {
-                        System.out.println("-> El valor máximo registrado es: " + valorMaximo);
-                    }
-                    break;
+         // 10. Multiplicar por 10
+         List<Integer> multiplicados = numeros.stream()
+                 .map(n -> n * 10)
+                 .collect(Collectors.toList());
+         System.out.println("10. Números multiplicados por 10: " + multiplicados);
 
-                case 7:
-                    System.out.println("Cerrando la aplicación...");
-                    break;
+         // 11. Convertir temperaturas (Celsius a Fahrenheit)
+         List<Double> fahrenheit = temperaturasCelsius.stream()
+                 .map(c -> (c * 9 / 5) + 32)
+                 .collect(Collectors.toList());
+         System.out.println("11. Temperaturas en Fahrenheit: " + fahrenheit);
 
-                default:
-                    System.out.println("Opción no válida. Intenta con un número del 1 al 7.");
-                    break;
-            }
-        } while (seleccion != 7);
-    }
-}
+
+         // Nivel 4 — combinar operaciones
+         System.out.println("\n--- Nivel 4 — combinar operaciones ---");
+
+         // 12. Pares elevados al cuadrado
+         List<Integer> paresCuadrado = numeros.stream()
+                 .filter(n -> n % 2 == 0)
+                 .map(n -> n * n)
+                 .collect(Collectors.toList());
+         System.out.println("12. Pares al cuadrado: " + paresCuadrado);
+
+         // 13. Suma de números pares
+         int sumaPares = numeros.stream()
+                 .filter(n -> n % 2 == 0)
+                 .reduce(0, Integer::sum);
+         System.out.println("13. Suma de números pares: " + sumaPares);
+
+         // 14. Promedio de números mayores que 50
+         OptionalDouble promedioMayores50 = numeros.stream()
+                 .filter(n -> n > 50)
+                 .mapToDouble(Integer::doubleValue)
+                 .average();
+         System.out.println("14. Promedio de mayores a 50: " +
+                 (promedioMayores50.isPresent() ? promedioMayores50.getAsDouble() : 0));
+
+         // 15. Máximo de números pares
+         int maximoPares = numeros.stream()
+                 .filter(n -> n % 2 == 0)
+                 .max(Integer::compareTo)
+                 .orElse(0);
+         System.out.println("15. Máximo de los pares: " + maximoPares);
+
+
+         // Nivel 5 — ordenamiento
+         System.out.println("\n--- Nivel 5 — ordenamiento ---");
+
+         // 16. Ordenar de menor a mayor
+         List<Integer> menorMayor = numeros.stream()
+                 .sorted()
+                 .collect(Collectors.toList());
+         System.out.println("16. Orden menor a mayor: " + menorMayor);
+
+         // 17. Ordenar de mayor a menor
+         List<Integer> mayorMenor = numeros.stream()
+                 .sorted(Comparator.reverseOrder())
+                 .collect(Collectors.toList());
+         System.out.println("17. Orden mayor a menor: " + mayorMenor);
+
+         // 18. Tres números más grandes
+         List<Integer> tresMasGrandes = numeros.stream()
+                 .sorted(Comparator.reverseOrder())
+                 .limit(3)
+                 .collect(Collectors.toList());
+         System.out.println("18. Tres números más grandes: " + tresMasGrandes);
+
+
+         // Nivel 6 — String (Utilizando List<String> en lugar de String[])
+         System.out.println("\n--- Nivel 6 — String ---");
+         System.out.println("Lista de nombres: " + nombres);
+
+         // 19. Filtrar nombres (ej. que empiecen con 'A')
+         List<String> nombresConA = nombres.stream()
+                 .filter(nombre -> nombre.startsWith("A"))
+                 .collect(Collectors.toList());
+         System.out.println("19. Nombres que empiezan con 'A': " + nombresConA);
+
+         // 20. Nombres con más de 5 caracteres
+         List<String> nombresLargos = nombres.stream()
+                 .filter(nombre -> nombre.length() > 5)
+                 .collect(Collectors.toList());
+         System.out.println("20. Nombres con más de 5 caracteres: " + nombresLargos);
+
+         // 21. Convertir a mayúsculas
+         List<String> mayusculas = nombres.stream()
+                 .map(String::toUpperCase)
+                 .collect(Collectors.toList());
+         System.out.println("21. Nombres en mayúsculas: " + mayusculas);
+
+         // 22. Ordenar nombres alfabéticamente
+         List<String> nombresOrdenados = nombres.stream()
+                 .sorted()
+                 .collect(Collectors.toList());
+         System.out.println("22. Nombres ordenados: " + nombresOrdenados);
+
+
+         // Nivel 7 — Matchers (Utilizando Predicate para evaluar booleanos)
+         System.out.println("\n--- Nivel 7 ---");
+
+         // 23. Buscar un número (ej. buscar el 20)
+         Integer buscado = numeros.stream()
+                 .filter(n -> n == 67)
+                 .findFirst()
+                 .orElse(null);
+         System.out.println("23. Buscar el número 67: " + (buscado != null ? "Encontrado" : "No encontrado"));
+
+         // 24. Determinar si TODOS cumplen una condición (ej. todos son menores a 200)
+         boolean todosMenores200 = numeros.stream()
+                 .allMatch(n -> n < 200);
+         System.out.println("24. ¿Todos los números son menores a 200?: " + todosMenores200);
+
+         // 25. Determinar si ALGUNO cumple una condición (ej. alguno es negativo)
+         boolean algunoNegativo = numeros.stream()
+                 .anyMatch(n -> n < 0);
+         System.out.println("25. ¿Existe algún número negativo en la lista?: " + algunoNegativo);
+     }
+ }
