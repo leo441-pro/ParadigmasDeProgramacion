@@ -1,162 +1,122 @@
- //   repositorio: https://github.com/leo441-pro/ParadigmasDeProgramacion
-
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
+import java.util.Comparator;
 
 public class Main {
+    public static void main(String[] args) {
+        // Lista base proporcionada por la práctica
+        List<Integer> numeros = List.of(10, 5, 8, 3, 15, 20, 7, 12, 4, 9);
+        System.out.println("==========================================");
+        System.out.println("PARTE 9.1: PROGRAMACIÓN ESTRUCTURADA");
+        System.out.println("==========================================");
 
-    // Método para desplegar las opciones y leer la elección
-    public static int mostrarMenu() {
-        Scanner lector = new Scanner(System.in);
-        System.out.println("\n========== MENÚ DE OPCIONES ==========");
-        System.out.println("1.- Leer dato");
-        System.out.println("2.- Muestre números pares");
-        System.out.println("3.- Muestre los cuadrados de los valores");
-        System.out.println("4.- Suma de los elementos de la lista");
-        System.out.println("5.- Buscar un elemento de la lista");
-        System.out.println("6.- Encontrar valor máximo");
-        System.out.println("7.- Salir");
-        System.out.print("Selecciona una opción (1-7): ");
-        return lector.nextInt();
-    }
-
-    // Método auxiliar para leer un entero de la consola
-    public static Integer leerEntero() {
-        Scanner lector = new Scanner(System.in);
-        System.out.print("Introduce un número entero: ");
-        return lector.nextInt();
-    }
-
-    // 1. Agregar dato a la lista
-    public static void agregarDato(ArrayList<Integer> lista, Integer dato) {
-        lista.add(dato);
-        System.out.println("-> Número " + dato + " agregado con éxito.");
-    }
-
-    // 2. Mostrar únicamente pares
-    public static void mostrarPares(ArrayList<Integer> lista) {
-        if (lista.isEmpty()) {
-            System.out.println("-> La lista está vacía.");
-            return;
-        }
-        System.out.print("-> Números pares encontrados: ");
-        boolean hayPares = false;
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i) % 2 == 0) {
-                System.out.print(lista.get(i) + " ");
-                hayPares = true;
-            }
-        }
-        if (!hayPares) {
-            System.out.print("Ninguno");
+        //Mostrar todos los números de la lista
+        System.out.print("Ejercicio 1 (Todos los numeros): ");
+        for (int i = 0; i < numeros.size(); i++) {
+            System.out.print(numeros.get(i) + " ");
         }
         System.out.println();
-    }
 
-    // 3. Mostrar el cuadrado de cada número
-    public static void mostrarCuadrados(ArrayList<Integer> lista) {
-        if (lista.isEmpty()) {
-            System.out.println("-> La lista está vacía.");
-            return;
-        }
-        System.out.println("-> Cuadrado de los valores almacenados:");
-        for (int i = 0; i < lista.size(); i++) {
-            Integer actual = lista.get(i);
-            int cuadrado = actual * actual;
-            System.out.println("   [" + actual + "]² = " + cuadrado);
-        }
-    }
-
-    // 4. Calcular suma de todos los elementos
-    public static int calcularSuma(ArrayList<Integer> lista) {
-        int total = 0;
-        for (int i = 0; i < lista.size(); i++) {
-            total += lista.get(i);
-        }
-        return total;
-    }
-
-    // 5. Buscar si existe un elemento y mostrar su posición
-    public static void buscarElemento(ArrayList<Integer> lista, Integer objetivo) {
-        if (lista.isEmpty()) {
-            System.out.println("-> La lista está vacía.");
-            return;
-        }
-        int indice = lista.indexOf(objetivo);
-        if (indice != -1) {
-            System.out.println("-> El elemento " + objetivo + " se localizó en el índice: " + indice);
-        } else {
-            System.out.println("-> El elemento " + objetivo + " no forma parte de la lista.");
-        }
-    }
-
-    // 6. Obtener el valor más alto
-    public static Integer obtenerMaximo(ArrayList<Integer> lista) {
-        if (lista.isEmpty()) {
-            return null;
-        }
-        Integer max = lista.get(0);
-        for (int i = 1; i < lista.size(); i++) {
-            if (lista.get(i) > max) {
-                max = lista.get(i);
+        //Mostrar únicamente los números mayores que 10
+        System.out.print("Ejercicio 2 (Mayores que 10): ");
+        for (int i = 0; i < numeros.size(); i++) {
+            int n = numeros.get(i);
+            if (n > 10) {
+                System.out.print(n + " ");
             }
         }
-        return max;
-    }
+        System.out.println();
 
-    public static void main(String[] args) {
-        ArrayList<Integer> numeros = new ArrayList<Integer>();
-        int seleccion;
-
-        do {
-            seleccion = mostrarMenu();
-
-            switch (seleccion) {
-                case 1:
-                    Integer nuevoValor = leerEntero();
-                    agregarDato(numeros, nuevoValor);
-                    break;
-
-                case 2:
-                    mostrarPares(numeros);
-                    break;
-
-                case 3:
-                    mostrarCuadrados(numeros);
-                    break;
-
-                case 4:
-                    if (numeros.isEmpty()) {
-                        System.out.println("-> La lista está vacía, la suma es 0.");
-                    } else {
-                        int sumaTotal = calcularSuma(numeros);
-                        System.out.println("-> Suma de los elementos: " + sumaTotal);
-                    }
-                    break;
-
-                case 5:
-                    System.out.print("Valor que deseas buscar. ");
-                    Integer valorBuscar = leerEntero();
-                    buscarElemento(numeros, valorBuscar);
-                    break;
-
-                case 6:
-                    Integer valorMaximo = obtenerMaximo(numeros);
-                    if (valorMaximo == null) {
-                        System.out.println("-> La lista no contiene elementos para evaluar un máximo.");
-                    } else {
-                        System.out.println("-> El valor máximo registrado es: " + valorMaximo);
-                    }
-                    break;
-
-                case 7:
-                    System.out.println("Cerrando la aplicación...");
-                    break;
-
-                default:
-                    System.out.println("Opción no válida. Intenta con un número del 1 al 7.");
-                    break;
+        //Mostrar únicamente los números pares
+        System.out.print("Ejercicio 3 (Pares): ");
+        for (int n : numeros) {
+            if (n % 2 == 0) {
+                System.out.print(n + " ");
             }
-        } while (seleccion != 7);
+        }
+        System.out.println();
+
+        //Mostrar únicamente los números impares
+        System.out.print("Ejercicio 4 (Impares): ");
+        for (int n : numeros) {
+            if (n % 2 != 0) {
+                System.out.print(n + " ");
+            }
+        }
+        System.out.println();
+
+        //Multiplicar cada número por 2 y mostrar el resultado
+        System.out.print("Ejercicio 5 (Multiplicados por 2): ");
+        for (int n : numeros) {
+            System.out.print((n * 2) + " ");
+        }
+
+        System.out.println("\n");
+
+        System.out.println("==================================================");
+        System.out.println("PARTE 10: LAMBDAS Y STREAMS EN JAVA");
+        System.out.println("==================================================");
+
+        // Ejercicio 6: Nueva colección con números >= 8
+        List<Integer> mayoresOIgual8 = numeros.stream()
+                .filter(n -> n >= 8)
+                .toList();
+        System.out.println("E6. Mayores o iguales a 8: " + mayoresOIgual8);
+
+        // Ejercicio 7: Nueva colección con números pares
+        List<Integer> pares = numeros.stream()
+                .filter(n -> n % 2 == 0)
+                .toList();
+        System.out.println("E7. Números pares: " + pares);
+
+        // Ejercicio 8: Ordenar de menor a mayor (ascendente)
+        List<Integer> menorAMayor = numeros.stream()
+                .sorted()
+                .toList();
+        System.out.println("E8. Ordenados de menor a mayor: " + menorAMayor);
+
+        // Ejercicio 9: Ordenar de mayor a menor (descendente)
+        List<Integer> mayorAMenor = numeros.stream()
+                .sorted(Comparator.reverseOrder())
+                .toList();
+        System.out.println("E9. Ordenados de mayor a menor: " + mayorAMenor);
+
+        // Ejercicio 10: Obtener el valor máximo
+        int maximo = numeros.stream()
+                .max(Integer::compareTo)
+                .orElseThrow();
+        System.out.println("E10. Valor máximo: " + maximo);
+
+        // Ejercicio 11: Obtener el valor mínimo
+        int minimo = numeros.stream()
+                .min(Integer::compareTo)
+                .orElseThrow();
+        System.out.println("E11. Valor mínimo: " + minimo);
+
+        // Ejercicio 12: Suma de todos los números
+        int suma = numeros.stream()
+                .mapToInt(Integer::intValue)
+                .sum();
+        System.out.println("E12. Suma total: " + suma);
+
+        // Ejercicio 13: Promedio de los números
+        double promedio = numeros.stream()
+                .mapToInt(Integer::intValue)
+                .average()
+                .orElse(0.0);
+        System.out.println("E13. Promedio: " + promedio);
+
+        // Ejercicio 14: Contar cuántos son mayores que 10
+        long mayores10 = numeros.stream()
+                .filter(n -> n > 10)
+                .count();
+        System.out.println("E14. Cantidad de números mayores que 10: " + mayores10);
+
+        // Ejercicio 15: Impares ordenados de menor a mayor
+        List<Integer> imparesOrdenados = numeros.stream()
+                .filter(n -> n % 2 != 0)
+                .sorted()
+                .toList();
+        System.out.println("E15. Impares ordenados ascendente: " + imparesOrdenados);
+
     }
 }
